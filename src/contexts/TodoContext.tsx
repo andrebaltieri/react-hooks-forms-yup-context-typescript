@@ -6,7 +6,8 @@ import { TodoContextType } from './TodoContextType';
 export const TodoContext = createContext<TodoContextType>({
     todos: [],
     addTodo: () => { },
-    removeTodo: () => { }
+    removeTodo: () => { },
+    toggle: () => { },
 });
 
 const TodoProvider = (props: any) => {
@@ -26,8 +27,14 @@ const TodoProvider = (props: any) => {
         setTodos(todos.filter((_, i) => i !== index));
     }
 
+    const toggle = (todo: Todo) => {
+        const index = todos.indexOf(todo);
+        todos[index].done = !todo.done;
+        setTodos([...todos]);
+    }
+
     return (
-        <TodoContext.Provider value={{ todos, addTodo, removeTodo }}>
+        <TodoContext.Provider value={{ todos, addTodo, removeTodo, toggle }}>
             {props.children}
         </TodoContext.Provider>
     )

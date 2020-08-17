@@ -8,18 +8,28 @@ interface TodoListItemProps {
 }
 
 const TodoListItem = (props: TodoListItemProps) => {
-    const { removeTodo } = useContext<TodoContextType>(TodoContext);
+    const { removeTodo, toggle } = useContext<TodoContextType>(TodoContext);
 
     const onRemove = (todo: Todo) => {
         removeTodo(todo);
     }
 
+    const handleChange = (event: any) => {
+        toggle(props.todo);
+    }
+
+
     return (
         <tr className="uk-animation-slide-bottom-medium" id={props.todo.id.toString()}>
-            <td className="uk-width-auto">{props.todo.id}</td>
+            <td className="uk-width-auto">
+                <label>
+                    <input className="uk-checkbox" type="checkbox" checked={props.todo.done} onChange={handleChange} />
+                </label>
+
+            </td>
             <td className="uk-width-expand">{props.todo.title}</td>
-            <td className="uk-width-auto uk-animation-toggle">
-                <button className="uk-icon-button uk-button-danger uk-animation-shake" onClick={() => onRemove(props.todo)} uk-icon="trash"></button>
+            <td className="uk-width-auto">
+                <button className="uk-icon-button uk-button-danger" onClick={() => onRemove(props.todo)} uk-icon="trash"></button>
             </td>
         </tr>
     );
